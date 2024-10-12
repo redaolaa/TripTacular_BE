@@ -3,10 +3,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 from .models import DestinationComment
-from .serializers import DestinationCommentSerializer
+from .serializers.common import DestinationCommentSerializer
 
 class DestinationCommentListView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
 
     def get(self, request):
         comments = DestinationComment.objects.all()

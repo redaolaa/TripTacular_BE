@@ -19,11 +19,12 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('destinations/', include('destinations.urls')),
-    path('hotels/', include('hotels.urls')),
-    path('restaurants/', include('restaurants.urls')),
-    path('destination_comments/', include('destination_comments.urls')),
-    path('hotel_comments/', include('hotel_comments.urls')),
-      path('restaurant_comments/', include('restaurant_comments.urls'))
+    path('api/destinations/', include('destinations.urls')),
+    path('api/hotels/', include('hotels.urls')),
+    path('api/restaurants/', include('restaurants.urls')),
+    path('api/destination_comments/', include('destination_comments.urls')),
+    path('api/hotel_comments/', include('hotel_comments.urls')),
+    path('api/restaurant_comments/', include('restaurant_comments.urls')),
+    path('api/auth/', include('jwt_auth.urls'))
     
 ]

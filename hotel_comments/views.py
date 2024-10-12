@@ -3,10 +3,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+
 from .models import HotelComment
-from .serializers import HotelCommentSerializer
+from .serializers.common import HotelCommentSerializer
 
 class HotelCommentListView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get(self, request):
         comments = HotelComment.objects.all()

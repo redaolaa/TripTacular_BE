@@ -3,10 +3,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+
 from .models import Hotel
-from .serializers import HotelSerializer
+from .serializers.common import HotelSerializer
 
 class HotelListView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
 
     def get(self, request):
         hotels = Hotel.objects.all()
@@ -14,6 +19,7 @@ class HotelListView(APIView):
         return Response(serialized_hotels.data, status=status.HTTP_200_OK)
     
     def post(self, request):
+        request.data["owner"]= request.user.id
         hotel_to_add = HotelSerializer(data=request.data)
         if hotel_to_add.is_valid():
             hotel_to_add.save()

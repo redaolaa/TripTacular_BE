@@ -9,8 +9,15 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import environ
 from pathlib import Path
+
+env = environ.Env()
+# environ.Env.read_env()
+environ.Env.read_env(env_file=Path(__file__).resolve().parent.parent / '.env')
+
+print(env('SECRET_KEY', default='Not Found'))
+print(f"SECRET_KEY from env: {env('SECRET_KEY', default='Not Found')}")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^#1yyd+aeai%i8+aafc&g+sfdlr9+s7bcdk66_#=raw!6i3(b@'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,12 +45,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
     'destinations',
     'hotels', 
     'restaurants',
     'destination_comments',
     'hotel_comments',
-    'restaurant_comments'
+    'restaurant_comments',
+    'jwt_auth'
     
 ]
 
@@ -55,7 +64,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'project.urls'
 
@@ -84,7 +97,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = { # added this to use postgres as the database instead of the default sqlite. do this before running the initial migrations or you will need to do it again
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'travel-api',
+        'NAME': env('DATABASE_NAME'),
         'HOST': 'localhost',
         'PORT': 5432
     }
@@ -130,3 +143,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'jwt_auth.User'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'jwt_auth.authentication.JWTAuthentication'
+    ],
+}

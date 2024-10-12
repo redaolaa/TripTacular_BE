@@ -3,12 +3,14 @@ from rest_framework.views import APIView # this imports rest_frameworks APIView 
 from rest_framework.response import Response # Response gives us a way of sending a http response to the user making the request, passing back data and other information
 from rest_framework import status # status gives us a list of official/possible response codes
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 from .models import Destination
-from .serializers import DestinationSerializer
+from .serializers.common import DestinationSerializer
 # Create your views here.
 
 class DestinationListView(APIView):
-
+    permission_classes = (IsAuthenticatedOrReadOnly, )
     def get(self, _request):
         destinations = Destination.objects.all()
         serialized_destinations = DestinationSerializer(destinations, many=True)

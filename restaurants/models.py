@@ -17,3 +17,5 @@ class Restaurant(models.Model):
     location = models.CharField(max_length=250)
     price_range = models.CharField(max_length=5, choices= PRICE_RANGES, default='0-10')
     destination = models.ForeignKey("destinations.Destination", related_name="restaurants", on_delete=models.CASCADE)
+    owner = models.ForeignKey('jwt_auth.User', related_name="restaurant", on_delete=models.CASCADE)
+    image_url = models.URLField(max_length=500, blank=True, null=True) 

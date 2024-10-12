@@ -3,10 +3,15 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
+
 from .models import RestaurantComment
-from .serializers import RestaurantCommentSerializer
+from .serializers.common import RestaurantCommentSerializer
 
 class RestaurantCommentListView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly, )
+
 
     def get(self, request):
         comments = RestaurantComment.objects.all()

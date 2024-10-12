@@ -3,10 +3,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+
 from .models import Restaurant
-from .serializers import RestaurantSerializer
+from .serializers.common import RestaurantSerializer
 
 class RestaurantListView(APIView):
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def get(self, request):
         restaurants = Restaurant.objects.all()
