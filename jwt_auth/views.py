@@ -9,6 +9,7 @@ from django.conf import settings
 from .serializers import UserSerializer
 import jwt
 
+
 # Create your views here.
 
 
@@ -44,4 +45,3 @@ class LoginView(APIView):
         token = jwt.encode({'sub': user_to_login.id, 'exp': int(dt.timestamp())}, settings.SECRET_KEY, algorithm='HS256')
 
         return Response({'token': token, 'message': f"Welcome back{user_to_login.username}"})
-

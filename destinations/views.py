@@ -28,6 +28,7 @@ class DestinationListView(APIView):
 
 
 class DestinationDetailView(APIView):
+        permission_classes = (IsAuthenticatedOrReadOnly, )
         def get_destination(self, pk):
             try:
                 return Destination.objects.get(pk=pk)

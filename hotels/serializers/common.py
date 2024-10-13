@@ -1,13 +1,10 @@
 from rest_framework import serializers
 from ..models import Hotel
-from destinations.serializers.common import DestinationSerializer 
-from hotel_comments.serializers.common import HotelCommentSerializer 
+from hotel_comments.serializers.common import HotelCommentSerializer
 
 class HotelSerializer(serializers.ModelSerializer):
-    destination = DestinationSerializer()
-    comments = HotelCommentSerializer(many=True, required=False, allow_null=True)
-
+    hotel_comments = HotelCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = Hotel
-        fields = '__all__' 
+        fields = ['id', 'name', 'stars', 'location', 'image_url', 'owner', 'hotel_comments']
