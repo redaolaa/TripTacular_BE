@@ -9,6 +9,9 @@ djangorestframework = "*"
 python-dotenv = "*"
 dj-database-url = "*"
 django-on-heroku = "*"
+django-environ = "*"
+django-cors-headers = "*"
+pyjwt = "*"
 
 [dev-packages]
 
