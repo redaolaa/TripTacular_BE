@@ -38,7 +38,7 @@ if ENV == 'DEV':
     # Replace the value below with your own secret and remove this comment.
     SECRET_KEY = 'dhjbkrbfnbrjksnjlsanbg!!lv)'
 else:
-    SECRET_KEY = str(os.getenv('SECRET_KEY')))
+    SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENV == 'DEV'
