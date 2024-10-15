@@ -160,6 +160,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'jwt_auth.User'
 
+CSRF_TRUSTED_ORIGINS = ['https://triptastic-23439bc107b8.herokuapp.com']
+
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
